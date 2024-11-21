@@ -10,9 +10,9 @@ from tqdm import tqdm
 
 import matplotlib.pyplot as plt
 
-from arty.sbr.brush import Brush
-from arty.sbr.color import generate_color_set, extend_color_set
-from arty.sbr.gradient import Gradient
+from core.brush import Brush
+from core.filter.color import generate_color_set, extend_color_set
+from core.edge.gradient import Gradient
 
 
 class RandomGrid:

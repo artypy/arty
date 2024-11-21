@@ -1,4 +1,4 @@
-from arty import core
+import core
 import numpy as np
 
 def lines(image: np.ndarray, to_blur: bool = False, to_noise: bool = False) -> np.ndarray:

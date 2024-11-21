@@ -4,10 +4,36 @@ import numpy as np
 
 
 class Gradient:
-    def __init__(self, gray_image, type="sharr", type_smoothing="gaussian", radius=1, smoothing_iterations=1):
+    def __init__(self, image, type="sharr", type_smoothing="gaussian", radius=1, smoothing_iterations=1):
+        """
+        :param image: np.ndarray or cv2.UMat, grayscale or RGB image
+        :param type: "sharr", "sobel", default is "sharr"
+        :param type_smoothing: "gaussian", "bilateral", "none", default is "gaussian"
+        :param radius: radius of the smoothing kernel, default is 1
+        :param smoothing_iterations: number of smoothing iterations, default is 1
+        """
         self.type = type
         self.type_smoothing = type_smoothing
         self.radius = radius
+
+        # if image is np.ndarray, convert to cv2 image
+        if isinstance(image, np.ndarray):
+            if len(image.shape) == 2:
+                gray_image = image
+            elif len(image.shape) == 3:
+                gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+            else:
+                raise ValueError(f"Invalid image shape: {image.shape}, must be (h, w) or (h, w, 3)")
+        # elif image is cv2 image, make it grayscale
+        elif isinstance(image, cv2.UMat):
+            if image.channels == 1:
+                gray_image = image
+            elif image.channels == 3:
+                gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+            else:
+                raise ValueError(f"Invalid image channels: {image.channels}, must be 1 or 3")
+        else:
+            raise ValueError(f"Invalid image type: {type(image)}, must be np.ndarray or cv2.UMat")
 
         if self.type == "sharr":
             self.grad_x = cv2.Scharr(gray_image, cv2.CV_32F, 1, 0)
@@ -42,16 +68,15 @@ if __name__ == "__main__":
     import sys
     import matplotlib.pyplot as plt
 
-    # example usage: python gradient.py ../../_demo/images/img.png
+    # example usage from root: python core/edge/gradient.py _demo/images/img.png
     if len(sys.argv) != 2:
         print("Usage: python gradient.py <image>")
         sys.exit(1)
 
     image = cv2.imread(sys.argv[1])
-    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    gradient_sharr = Gradient(gray_image, type="sharr", type_smoothing="none", radius=20, smoothing_iterations=1)
+    gradient_sharr = Gradient(image, type="sharr", type_smoothing="none", radius=20, smoothing_iterations=1)
 
-    gradient_smoothed = Gradient(gray_image, type="sharr", type_smoothing="gaussian", radius=20, smoothing_iterations=1)
+    gradient_smoothed = Gradient(image, type="sharr", type_smoothing="gaussian", radius=20, smoothing_iterations=1)
 
     fig, ax = plt.subplots(2, 2)
     ax[0, 0].imshow(gradient_sharr.grad_x, cmap="gray")
