@@ -61,7 +61,8 @@ class ImagePainter:
         """Generate and extend the color set."""
         print("Computing color set...")
         image = self.gray_image if self.preset.grayscale else self.image
-        self.color_set = generate_color_set(image, self.preset.palette_size)
+        max_img_size = 200
+        self.color_set = generate_color_set(image, self.preset.palette_size, max_img_size)
         print("Extending color color set...")
 
         if not self.preset.grayscale:
@@ -113,8 +114,8 @@ class ImagePainter:
                 angle = math.degrees(self.gradient.angle(y, x)) + 90
 
                 if self.preset.length == "base":
-                    length = int(round(self.stroke_scale + self.stroke_scale * math.sqrt(
-                        self.gradient.strength(y, x))) * self.preset.length_scale)
+                    length = max(int(round(self.stroke_scale + self.stroke_scale * math.sqrt(
+                        self.gradient.strength(y, x))) * self.preset.length_scale), 1)
                 elif self.preset.length == "inverse":
                     length = max(
                         1,
@@ -134,5 +135,8 @@ class ImagePainter:
     def show_result(self):
         plt.figure(figsize=(10, 10))
         plt.subplot(1, 1, 1)
-        plt.imshow(cv2.cvtColor(self.result, cv2.COLOR_BGR2RGB))
+        if self.preset.grayscale:
+            plt.imshow(self.result)
+        else:
+            plt.imshow(cv2.cvtColor(self.result, cv2.COLOR_BGR2RGB))
         plt.show()

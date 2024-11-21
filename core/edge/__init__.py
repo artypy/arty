@@ -1,1 +1,1 @@
-from .gradient import gradientX, gradientY, gradient
+from .gradient import Gradient
