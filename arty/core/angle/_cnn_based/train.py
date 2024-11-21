@@ -10,7 +10,9 @@ def create_new(path, kernel_size, device):
         nn.Conv2d(kernel_size ** 2, 3, 1),
         nn.Sigmoid(),
     ).to(device)
+
     print('training...')
+
     train(model, kernel_size, device, path)
 
 
@@ -20,6 +22,7 @@ def train(model, kernel_size, device, save):
 
     best = 1
     remaining = 1000
+
     while remaining:
         input, output = get_batch(kernel_size)
         input = torch.tensor(input).to(device).permute(0, 3, 2, 1).float()

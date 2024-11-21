@@ -8,6 +8,7 @@ class Gradient:
         self.type = type
         self.type_smoothing = type_smoothing
         self.radius = radius
+
         if self.type == "sharr":
             self.grad_x = cv2.Scharr(gray_image, cv2.CV_32F, 1, 0)
             self.grad_y = cv2.Scharr(gray_image, cv2.CV_32F, 0, 1)

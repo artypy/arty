@@ -22,6 +22,7 @@ def generate_color_set(img: np.ndarray, n: int, max_img_size: int = 200) -> np.n
     resized_img = cv2.resize(img, (int(img.shape[1] * ratio), int(img.shape[0] * ratio),), interpolation=cv2.INTER_AREA)
     clt = KMeans(n_clusters=n, n_init=10)
     clt.fit(resized_img.reshape(-1, 3))
+
     return clt.cluster_centers_
 
 
@@ -29,6 +30,7 @@ def extend_color_set(colors: np.ndarray, extensions: list[tuple[int, int, int]])
     reshaped_colors = colors.reshape((1, len(colors), 3)).astype(np.uint8)
     extended_colors = [variate_color(reshaped_colors, *x).reshape((-1, 3)) for x in extensions]
     all_colors = np.vstack([colors.reshape((-1, 3))] + extended_colors)
+
     return all_colors
 
 
@@ -47,6 +49,7 @@ def visualize_color_set(colors: np.ndarray, cell_size: int = 80) -> np.ndarray:
     plt.figure(figsize=(10, 4))
     plt.imshow(cv2.cvtColor(res, cv2.COLOR_BGR2RGB))
     plt.show()
+
     return res
 
 
@@ -55,4 +58,5 @@ if __name__ == "__main__":
     colors = generate_color_set(img, 10)
     extended_colors = extend_color_set(colors, [(0, 50, 0), (15, 30, 0), (-15, 30, 0)])
     visualize_color_set(extended_colors)
+
     print("Done")

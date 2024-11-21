@@ -23,13 +23,16 @@ class RandomGrid:
 
     def generate(self):
         radius = self.scale // 2
+
         grid = [
             ((y + random.randint(-radius, radius)) % self.height,
              (x + random.randint(-radius, radius)) % self.width)
             for y in range(0, self.height, self.scale)
             for x in range(0, self.width, self.scale)
         ]
+
         random.shuffle(grid)
+
         return grid
 
 
@@ -60,6 +63,7 @@ class ImagePainter:
         image = self.gray_image if self.preset.grayscale else self.image
         self.color_set = generate_color_set(image, self.preset.palette_size)
         print("Extending color color set...")
+
         if not self.preset.grayscale:
             self.color_set = extend_color_set(self.color_set, [(0, 50, 0), (15, 30, 0), (-15, 30, 0)])
 
@@ -76,17 +80,20 @@ class ImagePainter:
         normalized_distances = inverted_distances / inverted_distances.sum(axis=1, keepdims=True)
         scaled_distances = np.exp(self.k * len(self.color_set) * normalized_distances)
         probabilities = scaled_distances / scaled_distances.sum(axis=1, keepdims=True)
+
         return np.cumulative_sum(probabilities, axis=1, dtype=np.float32)
 
     def _get_color(self, probabilities):
         """Select a color from the set based on probabilities."""
         r = random.uniform(0, 1)
         i = bisect.bisect_left(probabilities, r)
+
         return self.color_set[i] if i < len(self.color_set) else self.color_set[-1]
 
     def paint(self):
         """Perform the painting operation."""
         print("Painting image...")
+
         if self.preset.has_cardboard:
             result = cv2.medianBlur(self.image, 11) if not self.preset.grayscale else cv2.medianBlur(self.gray_image, 11)
         else:
@@ -120,6 +127,7 @@ class ImagePainter:
                 self.brush.apply(result, (x, y), length, color, self.stroke_scale, angle, self.preset.length_first_flag)
 
         self.result = result
+
         return result
 
     # function to show the result

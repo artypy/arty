@@ -18,6 +18,7 @@ class Brush:
             "line": self._line,
             "texture": self._texture,
         }
+
         if self.brush_type in brush_methods:
             brush_methods[self.brush_type](res, position, size, color, stroke_scale, angle, length_first_flag)
         else:
@@ -51,6 +52,7 @@ class Brush:
 
     def _line(self, res, position, size, color, stroke_scale, angle, length_first_flag):
         x, y = position
+
         if length_first_flag:
             start_point = (int(x + size * math.cos(math.radians(angle))), int(y + size * math.sin(math.radians(angle))))
             end_point = (int(x - size * math.cos(math.radians(angle))), int(y - size * math.sin(math.radians(angle))))
@@ -63,15 +65,18 @@ class Brush:
                 int(x - stroke_scale * math.cos(math.radians(angle))),
                 int(y - stroke_scale * math.sin(math.radians(angle))),
             )
+
         cv2.line(res, start_point, end_point, color, stroke_scale, cv2.LINE_AA)
 
     def _texture(self, res, position, size, color, *_):
         if self.texture_image is None:
             raise ValueError("Texture image not provided for texture brush.")
+
         x, y = position
         half_size = size // 2
         texture = cv2.resize(self.texture_image, (size, size))
         roi = res[y - half_size: y + half_size, x - half_size: x + half_size]
+
         if roi.shape == texture.shape:
             np.copyto(roi, texture)
 
