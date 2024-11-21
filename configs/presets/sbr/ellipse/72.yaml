@@ -1,0 +1,16 @@
+brush_type: ellipse
+gradient_smoothing_radius: 20
+gradient_smoothing_type: gaussian
+gradient_type: sharr
+grayscale: false
+grid_scale: 1
+has_cardboard: true
+img_path: ../_demo/images/img.png
+img_save_path: sbr/ellipse/72.jpg
+length: inverse
+length_first_flag: true
+length_scale: 0.3333333333333333
+palette_size: 4
+preset_save_path: ../configs/presets/sbr/ellipse/72.yaml
+smoothing_iterations: 1
+stroke_scale: 1
