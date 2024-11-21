@@ -23,7 +23,7 @@ class Gradient:
             elif len(image.shape) == 3:
                 gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
             else:
-                raise ValueError(f"Invalid image shape: {image.shape}, must be (h, w) or (h, w, 3)")
+                raise ValueError(f"Invalid image shape: {image.shape}, m ust be (h, w) or (h, w, 3)")
         # elif image is cv2 image, make it grayscale
         elif isinstance(image, cv2.UMat):
             if image.channels == 1:
@@ -56,6 +56,8 @@ class Gradient:
                 pass
             else:
                 raise ValueError("Invalid gradient smoothing type: %s" % self.type_smoothing)
+
+        self.gradient = np.maximum(np.abs(self.grad_x), np.abs(self.grad_y))
 
     def angle(self, i, j):
         return np.arctan2(self.grad_y[i, j], self.grad_x[i, j])

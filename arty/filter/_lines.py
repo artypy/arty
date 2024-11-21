@@ -1,5 +1,6 @@
 import core
 import numpy as np
+from core.edge.gradient import Gradient
 
 def lines(image: np.ndarray, to_blur: bool = False, to_noise: bool = False) -> np.ndarray:
     if to_blur:
@@ -8,8 +9,9 @@ def lines(image: np.ndarray, to_blur: bool = False, to_noise: bool = False) -> n
     if to_noise:
         image = core.filter.noise(image)
 
-    dx, dy = core.edge.gradientX(image), core.edge.gradientY(image)
-    edges = core.edge.gradient(image)
+    gradient = Gradient(image)
+    dx, dy = gradient.grad_x, gradient.grad_y
+    edges = gradient.gradient
     angles = core.angle.gradient_truth(dx, dy)
     lines = core.filter.lines(image, angles, edges)
 
