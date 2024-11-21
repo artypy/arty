@@ -1,0 +1,13 @@
+brush_type: ellipse
+gradient_smoothing_radius: 10
+gradient_smoothing_type: gaussian
+gradient_type: sharr
+img_path: ../_demo/images/img.png
+img_save_path: sbr/ellipse/33.jpg
+length: base
+length_first_flag: true
+length_scale: 0.3333333333333333
+palette_size: 10
+preset_save_path: ../configs/presets/sbr/ellipse/33.yaml
+smoothing_iterations: 1
+stroke_scale: 1

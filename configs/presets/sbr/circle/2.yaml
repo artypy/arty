@@ -1,0 +1,9 @@
+brush_type: circle
+gradient_smoothing_radius: 0
+img_path: ../_demo/images/img.png
+img_save_path: sbr/circle/2.jpg
+length: base
+length_first_flag: true
+palette_size: 10
+preset_save_path: ../configs/presets/sbr/circle/2.yaml
+stroke_scale: 0

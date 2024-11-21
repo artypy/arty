@@ -1,0 +1,10 @@
+brush_type: ellipse
+gradient_smoothing_radius: 20
+img_path: ../_demo/images/img.png
+img_save_path: sbr/ellipse/0.jpg
+length: base
+length_first_flag: true
+length_scale: 0.5
+palette_size: 10
+preset_save_path: ../configs/presets/sbr/ellipse/0.yaml
+stroke_scale: 1
