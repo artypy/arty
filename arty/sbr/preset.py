@@ -6,7 +6,7 @@ import os
 class Preset:
     def __init__(self, img_path="../_demo/images/img.png", palette_size=10, stroke_scale=0, length_scale=1 / 3,
                  gradient_smoothing_radius=0, brush_type="circle", length="base", length_first_flag=True,
-                 gradient_type="sharr", gradient_smoothing_type="gaussian", smoothing_iterations=1, grid_scale=3):
+                 gradient_type="sharr", gradient_smoothing_type="gaussian", smoothing_iterations=1, grid_scale=3, grayscale=False, has_cardboard=False):
         self.img_path = img_path
         self.palette_size = palette_size
         self.stroke_scale = stroke_scale
@@ -24,3 +24,5 @@ class Preset:
         self.gradient_smoothing_type = gradient_smoothing_type
         self.smoothing_iterations = smoothing_iterations
         self.grid_scale = grid_scale
+        self.grayscale = grayscale
+        self.has_cardboard = has_cardboard

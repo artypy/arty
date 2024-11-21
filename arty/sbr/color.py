@@ -18,7 +18,8 @@ def variate_color(img: np.ndarray, hue_shift: int = 0, saturation_shift: int = 0
 
 
 def generate_color_set(img: np.ndarray, n: int, max_img_size: int = 200) -> np.ndarray:
-    resized_img = cv2.resize(img, (max_img_size, max_img_size), interpolation=cv2.INTER_AREA)
+    ratio = min(1.0, float(max_img_size) / img.shape[1], float(max_img_size) / img.shape[0])
+    resized_img = cv2.resize(img, (int(img.shape[1] * ratio), int(img.shape[0] * ratio),), interpolation=cv2.INTER_AREA)
     clt = KMeans(n_clusters=n, n_init=10)
     clt.fit(resized_img.reshape(-1, 3))
     return clt.cluster_centers_

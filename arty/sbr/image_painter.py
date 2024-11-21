@@ -44,6 +44,7 @@ class ImagePainter:
         self.gradient = None
         self.k = 9
         self.result = None
+        self.gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     def _compute_stroke_scale(self):
         return int(
@@ -56,15 +57,16 @@ class ImagePainter:
     def prepare_color_set(self):
         """Generate and extend the color set."""
         print("Computing color set...")
-        self.color_set = generate_color_set(self.image, self.preset.palette_size)
+        image = self.gray_image if self.preset.grayscale else self.image
+        self.color_set = generate_color_set(image, self.preset.palette_size)
         print("Extending color color set...")
-        self.color_set = extend_color_set(self.color_set, [(0, 50, 0), (15, 30, 0), (-15, 30, 0)])
+        if not self.preset.grayscale:
+            self.color_set = extend_color_set(self.color_set, [(0, 50, 0), (15, 30, 0), (-15, 30, 0)])
 
     def compute_gradient(self):
         """Compute the gradient of the image."""
         print("Computing gradient...")
-        gray_image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
-        self.gradient = Gradient(gray_image, self.preset.gradient_type, self.preset.gradient_smoothing_type,
+        self.gradient = Gradient(self.gray_image, self.preset.gradient_type, self.preset.gradient_smoothing_type,
                                  self.gradient_smoothing_radius)
 
     def _color_probabilities(self, pixels):
@@ -85,7 +87,10 @@ class ImagePainter:
     def paint(self):
         """Perform the painting operation."""
         print("Painting image...")
-        result = cv2.medianBlur(self.image, 21)
+        if self.preset.has_cardboard:
+            result = cv2.medianBlur(self.image, 11) if not self.preset.grayscale else cv2.medianBlur(self.gray_image, 11)
+        else:
+            result = np.full_like(self.image, 255, dtype=np.uint8)
 
         grid = RandomGrid(self.image.shape[0], self.image.shape[1], scale=self.preset.grid_scale).generate()
 
