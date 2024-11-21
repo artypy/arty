@@ -18,5 +18,5 @@ def gradientY(image: np.ndarray) -> np.ndarray:
 def gradient(image: np.ndarray) -> np.ndarray:
     dx = gradientX(image)
     dy = gradientY(image)
-    image = (dx ** 2 + dy ** 2) ** 0.5
+    image = np.maximum(np.abs(dx), np.abs(dy))
     return image
