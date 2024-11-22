@@ -70,7 +70,7 @@ if __name__ == "__main__":
     import sys
     import matplotlib.pyplot as plt
 
-    # example usage from root: python core/edge/gradient.py _demo/images/img.png
+    # example usage from root: python artypy[core]/edge/gradient.py _demo/images/img.png
     if len(sys.argv) != 2:
         print("Usage: python gradient.py <image>")
         sys.exit(1)

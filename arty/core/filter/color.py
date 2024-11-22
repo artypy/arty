@@ -54,7 +54,7 @@ def visualize_color_set(colors: np.ndarray, cell_size: int = 80) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    img = cv2.imread("../../_demo/images/img.png")
+    img = cv2.imread("../../../_demo/images/img.png")
     colors = generate_color_set(img, 10)
     extended_colors = extend_color_set(colors, [(0, 50, 0), (15, 30, 0), (-15, 30, 0)])
     visualize_color_set(extended_colors)
