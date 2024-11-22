@@ -17,11 +17,21 @@ from arty.core.edge.gradient import Gradient
 
 class RandomGrid:
     def __init__(self, height, width, scale):
+        """
+        Initialize the random grid.
+        :param height: height of the image
+        :param width: width of the image
+        :param scale: scale of the grid
+        """
         self.height = height
         self.width = width
         self.scale = scale
 
     def generate(self):
+        """
+        Generate a random grid.
+        :return: list of grid points
+        """
         radius = self.scale // 2
 
         grid = [
@@ -38,6 +48,11 @@ class RandomGrid:
 
 class ImagePainter:
     def __init__(self, image, preset):
+        """
+        Initialize the image painter.
+        :param image: input image as numpy array
+        :param preset: preset object
+        """
         self.image = image
         self.preset = preset
         self.brush = Brush(self.preset.brush_type)
@@ -75,7 +90,11 @@ class ImagePainter:
                                  self.gradient_smoothing_radius)
 
     def _color_probabilities(self, pixels):
-        """Compute color probabilities for the given pixels."""
+        """
+        Compute color probabilities for the given pixels.
+        :param pixels: list of pixels
+        :return: color probabilities
+        """
         distances = scipy.spatial.distance.cdist(pixels, self.color_set)
         inverted_distances = np.max(distances, axis=1, keepdims=True) - distances
         normalized_distances = inverted_distances / inverted_distances.sum(axis=1, keepdims=True)
@@ -85,14 +104,21 @@ class ImagePainter:
         return np.cumulative_sum(probabilities, axis=1, dtype=np.float32)
 
     def _get_color(self, probabilities):
-        """Select a color from the set based on probabilities."""
+        """
+        Select a color from the set based on probabilities.
+        :param probabilities: color probabilities
+        :return: selected color
+        """
         r = random.uniform(0, 1)
         i = bisect.bisect_left(probabilities, r)
 
         return self.color_set[i] if i < len(self.color_set) else self.color_set[-1]
 
     def paint(self):
-        """Perform the painting operation."""
+        """
+        Perform the painting operation.
+        :return: painted image
+        """
         print("Painting image...")
 
         if self.preset.has_cardboard:
@@ -113,17 +139,17 @@ class ImagePainter:
                 color = self._get_color(color_probabilities[i])
                 angle = math.degrees(self.gradient.angle(y, x)) + 90
 
-                if self.preset.length == "base":
+                if self.preset.length_type == "base":
                     length = max(int(round(self.stroke_scale + self.stroke_scale * math.sqrt(
                         self.gradient.strength(y, x))) * self.preset.length_scale), 1)
-                elif self.preset.length == "inverse":
+                elif self.preset.length_type == "inverse":
                     length = max(
                         1,
                         int(1 / round(self.stroke_scale + self.stroke_scale * math.sqrt(
                             self.gradient.strength(y, x))) ** 1.9 * 10 * self.preset.length_scale)
                     )
                 else:
-                    raise ValueError(f"Invalid length function: {self.preset.length}")
+                    raise ValueError(f"Invalid length function: {self.preset.length_type}")
 
                 self.brush.apply(result, (x, y), length, color, self.stroke_scale, angle, self.preset.length_first_flag)
 
@@ -131,12 +157,14 @@ class ImagePainter:
 
         return result
 
-    # function to show the result
     def show_result(self):
+        """Shows the result."""
         plt.figure(figsize=(10, 10))
         plt.subplot(1, 1, 1)
+
         if self.preset.grayscale:
             plt.imshow(self.result)
         else:
             plt.imshow(cv2.cvtColor(self.result, cv2.COLOR_BGR2RGB))
+
         plt.show()

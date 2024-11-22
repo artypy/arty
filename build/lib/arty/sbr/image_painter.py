@@ -113,17 +113,17 @@ class ImagePainter:
                 color = self._get_color(color_probabilities[i])
                 angle = math.degrees(self.gradient.angle(y, x)) + 90
 
-                if self.preset.length == "base":
+                if self.preset.length_type == "base":
                     length = max(int(round(self.stroke_scale + self.stroke_scale * math.sqrt(
                         self.gradient.strength(y, x))) * self.preset.length_scale), 1)
-                elif self.preset.length == "inverse":
+                elif self.preset.length_type == "inverse":
                     length = max(
                         1,
                         int(1 / round(self.stroke_scale + self.stroke_scale * math.sqrt(
                             self.gradient.strength(y, x))) ** 1.9 * 10 * self.preset.length_scale)
                     )
                 else:
-                    raise ValueError(f"Invalid length function: {self.preset.length}")
+                    raise ValueError(f"Invalid length function: {self.preset.length_type}")
 
                 self.brush.apply(result, (x, y), length, color, self.stroke_scale, angle, self.preset.length_first_flag)
 
