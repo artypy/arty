@@ -1,25 +1,23 @@
 import numpy as np
 from ._points import points
 from ..edge import gradient
-import pygame
+import cv2
 
 
-def strokes(image: np.ndarray, angles: np.ndarray, mx_length=10) -> np.ndarray:
+def strokes(image: np.ndarray, angles: np.ndarray, mx_length: int = 10) -> np.ndarray:
     pts = points(image, 7, 1, 0)
     grad = gradient(image) / 765
+    surf = np.ones_like(image) * 255
     image = 1 - image.mean(axis=2) / 255
     h, w = pts.shape
 
-    surf = pygame.Surface((w, h))
-    surf.fill((255, 255, 255))
-
-    angles[grad < 0.3] = np.random.random(angles.shape)[grad < 0.3] * 180
+    angles[grad < 0.05] = np.random.random(angles.shape)[grad < 0.05] * 180
     angles = np.radians(angles)
     X, Y = np.cos(angles), np.sin(angles)
     for y in range(h):
         for x in range(w):
             if pts[y, x]: continue
-            ln = image[y, x] * grad[y, x] * mx_length / 2
+            ln = image[y, x] * mx_length / 2
             dx, dy = X[y, x], Y[y, x]
-            pygame.draw.aaline(surf, (50, 50, 50), (x + ln * dy, y + ln * dx), (x - ln * dy, y - ln * dx))
-    return pygame.surfarray.pixels3d(surf).transpose(1, 0, 2)
+            cv2.line(surf, (int(x + ln * dy), int(y + ln * dx)), (int(x - ln * dy), int(y - ln * dx)), (50, 50, 50), 1)
+    return surf
