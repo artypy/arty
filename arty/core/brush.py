@@ -8,6 +8,17 @@ class Brush:
         self.brush_type = brush_type
         self.texture_image = texture_image
 
+    def apply_spline(self, canvas, control_points, color, radius):
+        """
+        Draw a cubic spline on the canvas.
+        :param canvas: Canvas image
+        :param control_points: List of control points for the spline
+        :param color: Color of the stroke
+        :param radius: Radius of the brush
+        """
+        for i in range(len(control_points) - 1):
+            cv2.line(canvas, control_points[i], control_points[i + 1], color.tolist(), radius)
+
     def apply(self, res, position, size, color, stroke_scale=1, angle=0, length_first_flag=True):
         brush_methods = {
             "square": self._square,
@@ -88,7 +99,6 @@ if __name__ == "__main__":
     # split into 6 different spaces on the canva
     positions = [(128, 128), (384, 128), (128, 384), (384, 384), (256, 128), (256, 384)]
 
-
     brush1 = Brush(brush_type="circle")
     brush1.apply(canvas, positions[0], 50, (255, 0, 0))
 
@@ -110,7 +120,3 @@ if __name__ == "__main__":
     # show
     cv2.imshow("Canvas", canvas)
     cv2.waitKey(0)
-
-
-
-

@@ -7,7 +7,7 @@ class Preset:
     def __init__(self, palette_size=10, stroke_scale=0, length_scale=1 / 3, gradient_smoothing_radius=0,
                  brush_type="circle", length_type="base", length_first_flag=True, gradient_type="sharr",
                  gradient_smoothing_type="gaussian", smoothing_iterations=1, grid_scale=3, grayscale=False,
-                 has_cardboard=False):
+                 has_cardboard=False, layer_scales = [1, 0.5, 0.25], error_threshold = 60, blur_factor = 1.0):
         """
         Initialize the preset object for the style-based rendering that will be used in the image painter.
         :param palette_size: the size of the palette, default is 10
@@ -44,3 +44,6 @@ class Preset:
         self.grid_scale = grid_scale
         self.grayscale = grayscale
         self.has_cardboard = has_cardboard
+        self.layer_scales = layer_scales
+        self.error_threshold = error_threshold
+        self.blur_factor = blur_factor
