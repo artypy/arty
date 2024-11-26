@@ -1,5 +1,5 @@
 import numpy as np
-from math import degrees, atan2
+from scipy.signal import convolve2d
 
 
 class GradientTruth:
@@ -13,11 +13,9 @@ class GradientTruth:
         gx = np.concatenate(((image[:, 1:] - image[:, :-1]).sum(axis=2), np.zeros((h, 1), dtype=int)), axis=1)
         gy = np.concatenate(((image[1:, :] - image[:-1, :]).sum(axis=2), np.zeros((1, w), dtype=int)), axis=0)
 
-        res = np.zeros_like(gx)
         n = self.kernel_size
-        for y in range(h):
-            for x in range(w):
-                dx = gx[max(0, y - n // 2):y + (n + 1) // 2, max(0, x - n // 2):x + (n + 1) // 2 - 1].sum()
-                dy = gy[max(0, y - n // 2):y + (n + 1) // 2 - 1, max(0, x - n // 2):x + (n + 1) // 2].sum()
-                res[y, x] = -degrees(atan2(dy, dx)) % 180
+
+        dx = convolve2d(gx, np.ones((n, n)), mode='same')
+        dy = convolve2d(gy, np.ones((n, n)), mode='same')
+        res = -np.degrees(np.arctan2(dy, dx)) % 180
         return res
