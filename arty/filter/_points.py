@@ -26,14 +26,13 @@ class Points:
 
         y, x = np.mgrid[-self.max_distance:self.max_distance + 1, -self.max_distance:self.max_distance + 1]
         dist = (x ** 2 + y ** 2) ** 0.5
+        d = np.ones_like(pts) * 10 * self.max_distance
 
         for edge, (x, y) in priority:
             r = max(1, self.max_distance * (1 - edge) ** gradient_scaler * image[y, x] ** darkness_scaler)
-
-            area = pts[y:y + self.max_distance * 2 + 1, x:x + self.max_distance * 2 + 1] * dist
-            area = area[np.nonzero(area)]
-
-            if len(area) == 0 or area.min() > r:
+            if d[y + self.max_distance, x + self.max_distance] > r:
                 pts[y + self.max_distance, x + self.max_distance] = 1
+                d[y:y + self.max_distance * 2 + 1, x:x + self.max_distance * 2 + 1] = np.minimum(
+                    d[y:y + self.max_distance * 2 + 1, x:x + self.max_distance * 2 + 1], dist)
         pts = pts[self.max_distance:-self.max_distance, self.max_distance:-self.max_distance]
         return 255 - pts * 255
