@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="artypy",
-    version="0.8.0",
+    version="0.10.0",
     author="artypy team",
     author_email="ahmatovbulat@gmail.com",
     description="Lightweight library for artistic filters",
@@ -19,12 +19,10 @@ setup(
     install_requires=[
         "numpy",
         "matplotlib",
-        "scikit-image",
-        "scikit-learn",
         "tqdm",
         "opencv-python",
         "progressbar",
-        "pygame",
+        "scipy"
     ],
     extras_require={
         "cuda": ["torch"],
