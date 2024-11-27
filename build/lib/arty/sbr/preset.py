@@ -30,12 +30,12 @@ class Preset:
         self.brush_type = brush_type
         self.length_type = length_type
         self.length_first_flag = length_first_flag
-        file_names = [int(file_name.split(".")[0]) for file_name in os.listdir(f"../experiments/sbr/{str(self.brush_type)}")]
-
-        if len(file_names) == 0:
-            file_names = [-1]
-
         if logging:
+            file_names = [int(file_name.split(".")[0]) for file_name in os.listdir(f"../experiments/sbr/{str(self.brush_type)}")]
+
+            if len(file_names) == 0:
+                file_names = [-1]
+
             self.img_save_path = os.path.join(f"../experiments/sbr/{str(self.brush_type)}/{str(max(file_names) + 1)}.jpg")
             self.preset_save_path = f"../configs/presets/sbr/{str(self.brush_type)}/{str(max(file_names) + 1)}.yaml"
         else:
