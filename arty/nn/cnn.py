@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 
-from arty.core.angle import cnn
+from arty.core.angle import _cnn as cnn
 
 
 
