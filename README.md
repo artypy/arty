@@ -1,6 +1,7 @@
 # artypy - lightweight library for artistic filters
 
 ## Installation
+Firstly, you need to install Python >= 3.11, then:
 ```bash
 pip install artypy
 ```
