@@ -5,9 +5,9 @@ from ..core.angle import GradientTruth
 
 
 class Lines:
-    def __init__(self, thickness: int = 3, max_length: int = 10, noise_intensity=20):
+    def __init__(self, thickness: int = 3, length: int = 10, noise_intensity=20):
         self.thickness = thickness
-        self.max_length = max_length
+        self.length = length
         self.noise_intensity = noise_intensity
 
     def process(self, image: np.ndarray, angles: np.ndarray = None) -> np.ndarray:
@@ -25,6 +25,6 @@ class Lines:
         for _, (x, y) in priority:
             if new[y, x].max() != 0: continue
             angle = radians(angles[y, x])
-            dy, dx = int(cos(angle) * self.max_length / 2), int(sin(angle) * self.max_length / 2)
+            dy, dx = int(cos(angle) * self.length / 2), int(sin(angle) * self.length / 2)
             cv2.line(new, (x - dx, y - dy), (x + dx, y + dy), image[y, x].tolist(), self.thickness)
         return new.astype('uint8')
