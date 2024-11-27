@@ -4,3 +4,4 @@ tqdm
 opencv-python
 progressbar
 scipy
+scikit-learn
