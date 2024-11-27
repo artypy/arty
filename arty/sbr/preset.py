@@ -7,7 +7,7 @@ class Preset:
     def __init__(self, palette_size=10, stroke_scale=0, length_scale=1 / 3, gradient_smoothing_radius=0,
                  brush_type="circle", length_type="base", length_first_flag=True, gradient_type="sharr",
                  gradient_smoothing_type="gaussian", smoothing_iterations=1, grid_scale=3, grayscale=False,
-                 has_cardboard=False, layer_scales = [1, 0.5, 0.25], error_threshold = 60, blur_factor = 1.0):
+                 has_cardboard=False, layer_scales = [1, 0.5, 0.25], error_threshold = 60, blur_factor = 1.0, logging = False):
         """
         Initialize the preset object for the style-based rendering that will be used in the image painter.
         :param palette_size: the size of the palette, default is 10
@@ -30,13 +30,17 @@ class Preset:
         self.brush_type = brush_type
         self.length_type = length_type
         self.length_first_flag = length_first_flag
-        file_names = [int(file_name.split(".")[0]) for file_name in os.listdir(f"sbr/{str(self.brush_type)}")]
+        file_names = [int(file_name.split(".")[0]) for file_name in os.listdir(f"../experiments/sbr/{str(self.brush_type)}")]
 
         if len(file_names) == 0:
             file_names = [-1]
 
-        self.img_save_path = os.path.join(f"sbr/{str(self.brush_type)}/{str(max(file_names) + 1)}.jpg")
-        self.preset_save_path = f"../configs/presets/sbr/{str(self.brush_type)}/{str(max(file_names) + 1)}.yaml"
+        if logging:
+            self.img_save_path = os.path.join(f"../experiments/sbr/{str(self.brush_type)}/{str(max(file_names) + 1)}.jpg")
+            self.preset_save_path = f"../configs/presets/sbr/{str(self.brush_type)}/{str(max(file_names) + 1)}.yaml"
+        else:
+            self.img_save_path = None
+            self.preset_save_path = None
         self.length_scale = length_scale
         self.gradient_type = gradient_type
         self.gradient_smoothing_type = gradient_smoothing_type
