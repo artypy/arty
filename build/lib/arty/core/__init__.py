@@ -1,1 +1,1 @@
-from . import angle, edge, filter, brush
+from . import angle, edge, brush, color

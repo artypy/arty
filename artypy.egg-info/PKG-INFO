@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: artypy
-Version: 0.8.0
+Version: 0.10.0
 Summary: Lightweight library for artistic filters
 Home-page: https://github.com/artypy/arty
 Author: artypy team
@@ -12,12 +12,9 @@ Requires-Python: >=3.11
 Description-Content-Type: text/markdown
 Requires-Dist: numpy
 Requires-Dist: matplotlib
-Requires-Dist: scikit-image
-Requires-Dist: scikit-learn
 Requires-Dist: tqdm
 Requires-Dist: opencv-python
 Requires-Dist: progressbar
-Requires-Dist: pygame
 Provides-Extra: cuda
 Requires-Dist: torch; extra == "cuda"
 

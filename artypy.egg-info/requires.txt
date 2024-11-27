@@ -1,11 +1,8 @@
 numpy
 matplotlib
-scikit-image
-scikit-learn
 tqdm
 opencv-python
 progressbar
-pygame
 
 [cuda]
 torch

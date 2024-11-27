@@ -15,6 +15,8 @@ class Gradient:
         self.type = type
         self.type_smoothing = type_smoothing
         self.radius = radius
+        self.gray_image = image
+        print(type, type_smoothing, radius, smoothing_iterations)
 
         # if image is np.ndarray, convert to cv2 image
         if isinstance(image, np.ndarray):
@@ -36,11 +38,11 @@ class Gradient:
             raise ValueError(f"Invalid image type: {type(image)}, must be np.ndarray or cv2.UMat")
 
         if self.type == "sharr":
-            self.grad_x = cv2.Scharr(gray_image, cv2.CV_32F, 1, 0)
-            self.grad_y = cv2.Scharr(gray_image, cv2.CV_32F, 0, 1)
+            self.grad_x = cv2.Scharr(self.gray_image, cv2.CV_64F, 1, 0)
+            self.grad_y = cv2.Scharr(self.gray_image, cv2.CV_64F, 0, 1)
         elif self.type == "sobel":
-            self.grad_x = cv2.Sobel(gray_image, cv2.CV_32F, 1, 0)
-            self.grad_y = cv2.Sobel(gray_image, cv2.CV_32F, 0, 1)
+            self.grad_x = cv2.Sobel(self.gray_image, cv2.CV_64F, 1, 0)
+            self.grad_y = cv2.Sobel(self.gray_image, cv2.CV_64F, 0, 1)
         else:
             raise ValueError("Invalid gradient type: %s" % self.type)
 
@@ -56,7 +58,7 @@ class Gradient:
                 pass
             else:
                 raise ValueError("Invalid gradient smoothing type: %s" % self.type_smoothing)
-
+        #
         self.gradient = np.maximum(np.abs(self.grad_x), np.abs(self.grad_y))
 
     def angle(self, i, j):

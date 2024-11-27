@@ -2,7 +2,7 @@ import scipy
 import bisect
 
 from arty.core.brush import Brush
-from arty.core.filter.color import generate_color_set, extend_color_set
+from arty.core.color import generate_color_set, extend_color_set
 from arty.core.edge.gradient import Gradient
 
 import random

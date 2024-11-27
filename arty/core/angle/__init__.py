@@ -1,2 +1,2 @@
-from ._gradient_based import gradient_truth
-from . import cnn
+from ._gradient_based import GradientTruth
+from ._conditional import Conditional
