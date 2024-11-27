@@ -66,37 +66,3 @@ class Gradient:
 
     def strength(self, i, j):
         return np.sqrt(self.grad_x[i, j] ** 2 + self.grad_y[i, j] ** 2)
-
-
-if __name__ == "__main__":
-    import sys
-    import matplotlib.pyplot as plt
-
-    # example usage from root: python artypy[core]/edge/gradient.py _demo/images/img.png
-    if len(sys.argv) != 2:
-        print("Usage: python gradient.py <image>")
-        sys.exit(1)
-
-    image = cv2.imread(sys.argv[1])
-    gradient_sharr = Gradient(image, type="sharr", type_smoothing="none", radius=20, smoothing_iterations=1)
-
-    gradient_smoothed = Gradient(image, type="sharr", type_smoothing="gaussian", radius=20, smoothing_iterations=1)
-
-    fig, ax = plt.subplots(2, 2)
-    ax[0, 0].imshow(gradient_sharr.grad_x, cmap="gray")
-    ax[0, 0].set_title("Gradient X (Sharr)")
-    ax[0, 0].axis("off")
-
-    ax[0, 1].imshow(gradient_sharr.grad_y, cmap="gray")
-    ax[0, 1].set_title("Gradient Y (Sharr)")
-    ax[0, 1].axis("off")
-
-    ax[1, 0].imshow(gradient_smoothed.grad_x, cmap="gray")
-    ax[1, 0].set_title("Gradient X (Smoothed)")
-    ax[1, 0].axis("off")
-
-    ax[1, 1].imshow(gradient_smoothed.grad_y, cmap="gray")
-    ax[1, 1].set_title("Gradient Y (Smoothed)")
-    ax[1, 1].axis("off")
-
-    plt.show()

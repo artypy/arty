@@ -51,3 +51,13 @@ class Preset:
         self.layer_scales = layer_scales
         self.error_threshold = error_threshold
         self.blur_factor = blur_factor
+
+
+class PresetAdv:
+    def __init__(self, brush_sizes=[32, 16, 8, 4,], blur_factor=1, min_stroke_length = 5, max_stroke_length = 150):
+        # self.brush_sizes = [256, 128, 64]
+        # self.brush_sizes = [32, 16, 8, 4, 2]
+        self.brush_sizes = brush_sizes
+        self.blur_factor = blur_factor
+        self.min_stroke_length = min_stroke_length
+        self.max_stroke_length = max_stroke_length
