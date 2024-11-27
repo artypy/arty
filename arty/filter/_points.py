@@ -2,14 +2,12 @@ import numpy as np
 
 
 class Points:
-    def __init__(self, max_distance: int = 7, gradient_scaler: float = 0, darkness_scaler: float = 0):
+    def __init__(self, max_distance: int = 10, gradient_scaler: float = 0, darkness_scaler: float = 0):
         self.max_distance = max_distance
         self.gradient_scaler = gradient_scaler
         self.darkness_scaler = darkness_scaler
 
     def process(self, image: np.ndarray) -> np.ndarray:
-        gradient_scaler = np.exp(self.gradient_scaler)
-        darkness_scaler = np.exp(self.darkness_scaler)
 
         image = image.astype(int)
         h, w, c = image.shape
@@ -29,10 +27,10 @@ class Points:
         d = np.ones_like(pts) * 10 * self.max_distance
 
         for edge, (x, y) in priority:
-            r = max(1, self.max_distance * (1 - edge) ** gradient_scaler * image[y, x] ** darkness_scaler)
+            r = self.max_distance * max(0, 1 - edge * self.gradient_scaler) * image[y, x] * np.exp(-self.darkness_scaler)
             if d[y + self.max_distance, x + self.max_distance] > r:
                 pts[y + self.max_distance, x + self.max_distance] = 1
                 d[y:y + self.max_distance * 2 + 1, x:x + self.max_distance * 2 + 1] = np.minimum(
                     d[y:y + self.max_distance * 2 + 1, x:x + self.max_distance * 2 + 1], dist)
         pts = pts[self.max_distance:-self.max_distance, self.max_distance:-self.max_distance]
-        return 255 - pts * 255
+        return (255 - pts * 255).astype('uint8')
