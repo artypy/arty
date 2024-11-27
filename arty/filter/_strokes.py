@@ -19,7 +19,7 @@ class Strokes:
         gx = np.concatenate((np.abs(image[:, 1:] - image[:, :-1]).sum(axis=2), np.zeros((h, 1), dtype=int)), axis=1)
         gy = np.concatenate((np.abs(image[1:, :] - image[:-1, :]).sum(axis=2), np.zeros((1, w), dtype=int)), axis=0)
         grad = np.maximum(gx, gy) / 765
-        surf = np.ones_like(image) * 200
+        surf = (np.ones_like(image) * 200).astype('uint8')
         image = 1 - image.mean(axis=2) / 255
         h, w = pts.shape
 
